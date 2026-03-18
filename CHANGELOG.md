@@ -2,6 +2,12 @@
 
 ## [Unreleased] 3/18/26
 
+- SQLite database created from initial schema
+
+# Changelog
+
+## [Unreleased] 3/18/26
+
 - Added EF configuration
 - Created initial DB migration
 
