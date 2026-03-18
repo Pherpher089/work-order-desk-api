@@ -1,5 +1,10 @@
 # Changelog
 
+## [Unreleased] 3/18/26
+
+- Added EF configuration
+- Created initial DB migration
+
 ## [Unreleased] 3/2/26
 
 ### Added
