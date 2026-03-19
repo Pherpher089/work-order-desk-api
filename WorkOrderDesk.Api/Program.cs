@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using WorkOrderDesk.Infrastructure.Persistence;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -5,6 +8,13 @@ builder.Services.AddControllers();
 // Swagger (OpenAPI) for .NET 8
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddDbContext<WorkOrderDeskContext>(options =>
+{
+    string connectionString = builder.Configuration.GetConnectionString("WorkOrderDesk");
+    options.UseSqlite(connectionString);
+});
+
 
 var app = builder.Build();
 
