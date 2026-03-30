@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased] 3/30/26
+
+- Create Work Order use case (handler + command + result)
+- Create Work Order API endpoint (POST /work-orders)
+- Request/response DTOs for work order creation
+
 ## [Unreleased] 3/18/26
 
 - SQLite database created from initial schema
