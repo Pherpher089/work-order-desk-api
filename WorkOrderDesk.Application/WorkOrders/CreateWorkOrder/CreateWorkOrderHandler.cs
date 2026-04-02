@@ -33,7 +33,7 @@ public sealed class CreateWorkOrderHandler
             Description = workOrder.Description,
             Priority = workOrder.Priority.ToString(),
             Status = workOrder.Status.ToString(),
-            CreateAtUtc = workOrder.CreatedAtUtc
+            CreatedAtUtc = workOrder.CreatedAtUtc
         };
     }
 }

@@ -1,6 +1,6 @@
-namespace WorkOrderDesk.Application.WorkOrders.CreateWorkOrder;
+namespace WorkOrderDesk.Application.WorkOrders.ListWorkOrders;
 
-public sealed class CreateWorkOrderResult
+public sealed class WorkOrderListItem
 {
     public Guid Id { get; init; }
     public string Title { get; init; } = string.Empty;
@@ -8,4 +8,5 @@ public sealed class CreateWorkOrderResult
     public string Priority { get; init; } = string.Empty;
     public string Status { get; init; } = string.Empty;
     public DateTime CreatedAtUtc { get; init; }
+    public DateTime UpdatedAtUtc { get; init; }
 }

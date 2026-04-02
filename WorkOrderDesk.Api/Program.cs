@@ -4,8 +4,8 @@ using WorkOrderDesk.Application.Abstractions;
 using WorkOrderDesk.Application.WorkOrders.CreateWorkOrder;
 using WorkOrderDesk.Infrastructure.Persistence.Repositories;
 using WorkOrderDesk.Api.WorkOrders;
-using workOrderDesk.Api.WorkOrders;
-
+using WorkOrderDesk.Application.WorkOrders.ListWorkOrders;
+using WorkOrderDesk.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +23,7 @@ builder.Services.AddDbContext<WorkOrderDeskContext>(options =>
 
 builder.Services.AddScoped<IWorkOrderRepository, WorkOrderRepository>();
 builder.Services.AddScoped<CreateWorkOrderHandler>();
+builder.Services.AddScoped<ListWorkOrdersHandler>();
 
 var app = builder.Build();
 
@@ -35,6 +36,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.MapControllers();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.MapGet("/health", () => Results.Ok(new { status = "ok" }));
 
@@ -53,16 +56,37 @@ app.MapPost("/work-orders", async (
 
     CreateWorkOrderResult result = await handler.HandleAsync(command, cancellationToken);
 
-    return Results.Created($"/work-orders/{result.Id}", new CreateWorkOrderResponse
+    return Results.Created($"/work-orders/{result.Id}", new CreateWorkOrderResult
     {
         Id = result.Id,
         Title = result.Title,
         Description = result.Description,
         Priority = result.Priority,
         Status = result.Status,
-        CreatedAtUtc = result.CreateAtUtc
+        CreatedAtUtc = result.CreatedAtUtc
     });
 
+});
+
+app.MapGet("/work-orders", async (
+    ListWorkOrdersHandler handler,
+    CancellationToken cancellationToken
+) =>
+{
+    IReadOnlyList<WorkOrderListItem> items = await handler.HandleAsync(new ListWorkOrdersQuery(), cancellationToken);
+
+    IEnumerable<WorkOrderListItemResponse> response = items.Select(x => new WorkOrderListItemResponse
+    {
+        Id = x.Id,
+        Title = x.Title,
+        Description = x.Description,
+        Priority = x.Priority,
+        Status = x.Status,
+        CreatedAtUtc = x.CreatedAtUtc,
+        UpdatedAtUtc = x.UpdatedAtUtc
+    });
+
+    return Results.Ok(response);
 });
 
 app.Run();

@@ -1,5 +1,16 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+- Global exception handling middleware
+- Consistent HTTP error responses for domain validation failures
+
+### Changed
+
+- API now returns 400 Bad Request for invalid input instead of 500 errors
+
 ## [Unreleased] 3/30/26
 
 - Create Work Order use case (handler + command + result)
