@@ -21,6 +21,17 @@ builder.Services.AddDbContext<WorkOrderDeskContext>(options =>
     options.UseSqlite(connectionString);
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("WorkOrderDeskWeb", policy =>
+    {
+        policy
+            .WithOrigins("http://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 builder.Services.AddScoped<IWorkOrderRepository, WorkOrderRepository>();
 builder.Services.AddScoped<CreateWorkOrderHandler>();
 builder.Services.AddScoped<ListWorkOrdersHandler>();
@@ -33,10 +44,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
 app.MapControllers();
-
+app.UseHttpsRedirection();
+app.UseCors("WorkOrderDeskWeb");
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.MapGet("/health", () => Results.Ok(new { status = "ok" }));

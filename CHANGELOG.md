@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased] 4/6/26
+
+### Added
+
+- CORS policy for local frontend development
+
 ## [Unreleased]
 
 ### Added
