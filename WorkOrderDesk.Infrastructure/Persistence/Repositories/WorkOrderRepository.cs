@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WorkOrderDesk.Application.Abstractions;
+using WorkOrderDesk.Application.WorkOrders.GetWorkOrderById;
 using WorkOrderDesk.Application.WorkOrders.ListWorkOrders;
 using WorkOrderDesk.Domain.WorkOrders;
 
@@ -36,5 +37,25 @@ public sealed class WorkOrderRepository : IWorkOrderRepository
                 UpdatedAtUtc = x.UpdatedAtUtc
             })
             .ToListAsync(cancellationToken);
+    }
+    public async Task<WorkOrderDetailsResult?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await _context.WorkOrders
+            .AsNoTracking()
+            .Where(x => x.Id == id)
+            .Select(x => new WorkOrderDetailsResult
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Description = x.Description,
+                Priority = x.Priority.ToString(),
+                Status = x.Status.ToString(),
+                AssigneeId = x.AssigneeId.HasValue ? x.AssigneeId.Value.Value : null,
+                CreatedAtUtc = x.CreatedAtUtc,
+                UpdatedAtUtc = x.UpdatedAtUtc,
+                CompletedAtUtc = x.CompletedAtUtc,
+                ArchivedAtUtc = x.ArchivedAtUtc
+            })
+            .SingleOrDefaultAsync(cancellationToken);
     }
 }

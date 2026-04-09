@@ -6,6 +6,7 @@ using WorkOrderDesk.Infrastructure.Persistence.Repositories;
 using WorkOrderDesk.Api.WorkOrders;
 using WorkOrderDesk.Application.WorkOrders.ListWorkOrders;
 using WorkOrderDesk.Api.Middleware;
+using WorkOrderDesk.Application.WorkOrders.GetWorkOrderById;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +36,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<IWorkOrderRepository, WorkOrderRepository>();
 builder.Services.AddScoped<CreateWorkOrderHandler>();
 builder.Services.AddScoped<ListWorkOrdersHandler>();
+builder.Services.AddScoped<GetWorkOrderByIdHandler>();
 
 var app = builder.Build();
 
@@ -97,6 +99,37 @@ app.MapGet("/work-orders", async (
     });
 
     return Results.Ok(response);
+});
+
+app.MapGet("/work-orders/{id:guid}", async (
+    Guid id,
+    GetWorkOrderByIdHandler handler,
+    CancellationToken cancellationToken
+) =>
+{
+    var result = await handler.HandleAsync(new GetWorkOrderByIdQuery
+    {
+        Id = id
+    }, cancellationToken);
+
+    if (result is null)
+    {
+        return Results.NotFound();
+    }
+
+    return Results.Ok(new WorkOrderDetailsResponse
+    {
+        Id = result.Id,
+        Title = result.Title,
+        Description = result.Description,
+        Priority = result.Priority,
+        Status = result.Status,
+        AssigneeId = result.AssigneeId,
+        CreatedAtUtc = result.CreatedAtUtc,
+        UpdatedAtUtc = result.UpdatedAtUtc,
+        CompltedAtUtc = result.CompletedAtUtc,
+        ArchivedAtUtc = result.ArchivedAtUtc
+    });
 });
 
 app.Run();
