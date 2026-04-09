@@ -1,3 +1,19 @@
+## [Unreleased] 4/9/26
+
+### Added
+
+- Get Work Order by ID use case (application layer)
+- GET /work-orders/{id} endpoint
+- Work order details response model
+
+### Fixed
+
+- Dependency injection registration for GetWorkOrderByIdHandler
+
+### Changed
+
+- Improved API consistency for work order retrieval
+
 # Changelog
 
 ## [Unreleased] 4/8/26
