@@ -10,6 +10,7 @@ using WorkOrderDesk.Application.WorkOrders.GetWorkOrderById;
 using WorkOrderDesk.Application.WorkOrders.UpdateWorkOrder;
 using WorkOrderdeks.Api.WorkOrders;
 using WorkOrderDesk.Application.WorkOrders.DeleteWorkOrder;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +35,11 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
+});
+
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 
 builder.Services.AddScoped<IWorkOrderRepository, WorkOrderRepository>();

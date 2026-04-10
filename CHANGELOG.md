@@ -1,84 +1,72 @@
-## [Unreleased] 4/10/26
+# Changelog
 
-### Added
+## [Unreleased]
+
+### Changed 4/10/26
+
+- Configured JSON enum serialization to support string enum values in requests
+
+### Added 4/10/26
 
 - Delete Work Order use case (application layer)
 - DELETE /work-orders/{id} endpoint
 
-### Changed
+### Changed 4/10/26
 
 - Expanded work order repository abstraction to support delete operations
 
-## [Unreleased] 4/9/26
-
-### Added
+### Added 4/9/26
 
 - Get Work Order by ID use case (application layer)
 - GET /work-orders/{id} endpoint
 - Work order details response model
 
-### Fixed
+### Fixed 4/9/26
 
 - Dependency injection registration for GetWorkOrderByIdHandler
 
-### Changed
+### Changed 4/9/26
 
 - Improved API consistency for work order retrieval
 
-# Changelog
-
-## [Unreleased] 4/8/26
-
-### Changed
+### Changed 4/8/26
 
 - README update
 
-# Changelog
-
-## [Unreleased] 4/6/26
-
-### Added
+### Added 4/6/26
 
 - CORS policy for local frontend development
 
-## [Unreleased]
-
-### Added
+### Added 4/6/26
 
 - Global exception handling middleware
 - Consistent HTTP error responses for domain validation failures
 
-### Changed
+### Changed 4/6/26
 
 - API now returns 400 Bad Request for invalid input instead of 500 errors
 
-## [Unreleased] 3/30/26
+### Added 3/30/26
 
 - Create Work Order use case (handler + command + result)
 - Create Work Order API endpoint (POST /work-orders)
 - Request/response DTOs for work order creation
 
-## [Unreleased] 3/18/26
+### Added 3/18/26
 
 - SQLite database created from initial schema
 
-# Changelog
-
-## [Unreleased] 3/18/26
+### Added 3/18/26
 
 - Added EF configuration
 - Created initial DB migration
 
-## [Unreleased] 3/2/26
-
-### Added
+### Added 3/2/26
 
 - WorkOrder domain model with status trasitions and audit time stamp
 - User entity + Userid
 
-## [Unreleased] 2/24/26
-
-### Added
+### Added 2/24/26
 
 - Initial solution structure
 - Layered architecture (Domain / Application / Infrastructure / API)
