@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added 4/10/26
+
+- Screenshot for README
+
 ### Changed 4/10/26
 
 - Configured JSON enum serialization to support string enum values in requests

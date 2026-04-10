@@ -11,6 +11,10 @@ This project demonstrates a layered architecture using:
 
 ---
 
+## 🖼️ Screenshots
+
+## ![Screenshot 1](./assets/Swagger.png)
+
 ## 🧱 Architecture
 
 The solution is organized into distinct layers:
