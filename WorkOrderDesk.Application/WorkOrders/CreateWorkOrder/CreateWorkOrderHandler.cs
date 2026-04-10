@@ -1,4 +1,3 @@
-using System.Security.Cryptography.X509Certificates;
 using WorkOrderDesk.Application.Abstractions;
 using WorkOrderDesk.Domain.WorkOrders;
 

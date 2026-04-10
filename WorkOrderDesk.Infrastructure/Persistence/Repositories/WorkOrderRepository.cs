@@ -58,4 +58,21 @@ public sealed class WorkOrderRepository : IWorkOrderRepository
             })
             .SingleOrDefaultAsync(cancellationToken);
     }
+
+    public async Task<WorkOrder?> GetEntityByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await _context.WorkOrders
+            .SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
+    }
+
+    public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    public Task DeleteAsync(WorkOrder workOrder, CancellationToken cancellationToken = default)
+    {
+        _context.WorkOrders.Remove(workOrder);
+        return Task.CompletedTask;
+    }
 }

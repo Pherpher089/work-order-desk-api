@@ -1,4 +1,4 @@
-using workOrderDesk.Domain.WorkOrders;
+using WorkOrderDesk.Domain.WorkOrders;
 
 namespace WorkOrderDesk.Api.WorkOrders;
 

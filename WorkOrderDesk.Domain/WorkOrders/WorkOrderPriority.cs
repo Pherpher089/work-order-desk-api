@@ -1,4 +1,4 @@
-namespace workOrderDesk.Domain.WorkOrders;
+namespace WorkOrderDesk.Domain.WorkOrders;
 
 public enum WorkOrderPriority
 {

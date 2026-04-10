@@ -1,3 +1,14 @@
+## [Unreleased] 4/10/26
+
+### Added
+
+- Delete Work Order use case (application layer)
+- DELETE /work-orders/{id} endpoint
+
+### Changed
+
+- Expanded work order repository abstraction to support delete operations
+
 ## [Unreleased] 4/9/26
 
 ### Added

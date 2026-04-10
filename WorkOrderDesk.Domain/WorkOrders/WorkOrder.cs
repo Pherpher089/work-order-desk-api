@@ -1,5 +1,5 @@
 using System.Dynamic;
-using workOrderDesk.Domain.WorkOrders;
+using WorkOrderDesk.Domain.WorkOrders;
 using WorkOrderDesk.Domain.Users;
 
 namespace WorkOrderDesk.Domain.WorkOrders;
@@ -79,7 +79,7 @@ public sealed class WorkOrder
     public void SetDescription(string? description)
     {
         string? normalized = NormalizeDescription(description);
-        if (normalized == description) return;
+        if (normalized == Description) return;
 
         Description = normalized;
         Touch();

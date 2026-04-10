@@ -7,6 +7,9 @@ using WorkOrderDesk.Api.WorkOrders;
 using WorkOrderDesk.Application.WorkOrders.ListWorkOrders;
 using WorkOrderDesk.Api.Middleware;
 using WorkOrderDesk.Application.WorkOrders.GetWorkOrderById;
+using WorkOrderDesk.Application.WorkOrders.UpdateWorkOrder;
+using WorkOrderdeks.Api.WorkOrders;
+using WorkOrderDesk.Application.WorkOrders.DeleteWorkOrder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +40,8 @@ builder.Services.AddScoped<IWorkOrderRepository, WorkOrderRepository>();
 builder.Services.AddScoped<CreateWorkOrderHandler>();
 builder.Services.AddScoped<ListWorkOrdersHandler>();
 builder.Services.AddScoped<GetWorkOrderByIdHandler>();
+builder.Services.AddScoped<UpdateWorkOrderHandler>();
+builder.Services.AddScoped<DeleteWorkOrderHandler>();
 
 var app = builder.Build();
 
@@ -131,5 +136,64 @@ app.MapGet("/work-orders/{id:guid}", async (
         ArchivedAtUtc = result.ArchivedAtUtc
     });
 });
+
+app.MapPut("/work-orders/{id:guid}", async (
+    Guid id,
+    UpdateWorkOrderRequest request,
+    UpdateWorkOrderHandler handler,
+    CancellationToken cancellationToken
+) =>
+{
+    var command = new UpdateWorkOrderCommand
+    {
+        Id = id,
+        Title = request.Title,
+        Description = request.Description,
+        Priority = request.Priority,
+        Status = request.Status,
+        AssigneeId = request.AssigneeId
+    };
+
+    var result = await handler.HandleAsync(command, cancellationToken);
+
+    if (result is null)
+    {
+        return Results.NotFound();
+    }
+
+    return Results.Ok(new UpdateWorkOrderResponse
+    {
+        Id = result.Id,
+        Title = result.Title,
+        Description = result.Description,
+        Priority = result.Priority,
+        Status = result.Status,
+        AssigneeId = result.AssigneeId,
+        CreatedAtUtc = result.CreatedAtUtc,
+        UpdateAtUtc = result.UpdatedAtUtc,
+        CompletedAtUtc = result.CompletedAtUtc,
+        ArchivedAtUtc = result.ArchivedAtUtc
+    });
+});
+
+app.MapDelete("/work-orders/{id:guid}", async (
+    Guid id,
+    DeleteWorkOrderHandler handler,
+    CancellationToken cancellationToken
+) =>
+{
+    var deleted = await handler.HandleAsync(new DeleteWorkOrderCommand
+    {
+        Id = id
+    }, cancellationToken);
+
+    if (!deleted)
+    {
+        return Results.NotFound();
+    }
+
+    return Results.NoContent();
+});
+
 
 app.Run();

@@ -1,4 +1,3 @@
-using WorkOrderDesk.Application.WorkOrders.GetWorkOrderById;
 using WorkOrderDesk.Application.Abstractions;
 
 namespace WorkOrderDesk.Application.WorkOrders.GetWorkOrderById;
