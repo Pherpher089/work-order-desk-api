@@ -20,18 +20,29 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+string connectionString = builder.Configuration.GetConnectionString("WorkOrderDesk") ?? throw new InvalidOperationException("Connection string 'WorkOrderDesk' not found.");
 builder.Services.AddDbContext<WorkOrderDeskContext>(options =>
 {
-    string connectionString = builder.Configuration.GetConnectionString("WorkOrderDesk") ?? throw new InvalidOperationException("Connection string 'WorkOrderDesk' not found.");
-    options.UseSqlite(connectionString);
+
+    if (connectionString!.Contains("Host="))
+    {
+        options.UseNpgsql(connectionString);
+    }
+    else
+    {
+        options.UseSqlite(connectionString);
+    }
 });
+
+string frontEndUrl = builder.Configuration["FrontendUrl"] ?? throw new InvalidOperationException("FrontendUrl configuration is missing.");
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("WorkOrderDeskWeb", policy =>
     {
+        if (frontEndUrl == null) return;
         policy
-            .WithOrigins("http://localhost:5173")
+            .WithOrigins(frontEndUrl)
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
@@ -50,6 +61,12 @@ builder.Services.AddScoped<UpdateWorkOrderHandler>();
 builder.Services.AddScoped<DeleteWorkOrderHandler>();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateAsyncScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<WorkOrderDeskContext>();
+    dbContext.Database.Migrate();
+}
 
 if (app.Environment.IsDevelopment())
 {

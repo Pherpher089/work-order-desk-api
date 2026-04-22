@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+### Changed 4/22/26
+
+- Configured project for hosting
+- Added PostgreSQL package to project (infrastructure)
+- Added use of PostgreSQL db if not in development
+- Added appsetiting field for front-end URL to use in CORS config
+- Setting project to automatically migrate on startup
+
 ### Added 4/10/26
 
 - Screenshot for README
