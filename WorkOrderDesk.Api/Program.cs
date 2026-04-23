@@ -74,10 +74,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapControllers();
 app.UseHttpsRedirection();
 app.UseCors("WorkOrderDeskWeb");
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+app.MapControllers();
 
 app.MapGet("/health", () => Results.Ok(new { status = "ok" }));
 

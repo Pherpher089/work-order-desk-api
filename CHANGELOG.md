@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+### Changed 4/23/26
+
+- Updated Program.cs to map the controllers after the useCors() method
+
+### Added 4/23/26
+
+- Added docker file for deployment on Render
+
 ### Changed 4/22/26
 
 - Configured project for hosting
