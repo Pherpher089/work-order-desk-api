@@ -14,7 +14,7 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+// builder.Services.AddControllers();
 
 // Swagger (OpenAPI) for .NET 8
 builder.Services.AddEndpointsApiExplorer();
@@ -36,17 +36,32 @@ builder.Services.AddDbContext<WorkOrderDeskContext>(options =>
 
 string frontEndUrl = builder.Configuration["FrontendUrl"] ?? throw new InvalidOperationException("FrontendUrl configuration is missing.");
 
+// builder.Services.AddCors(options =>
+// {
+//     options.AddPolicy("WorkOrderDeskWeb", policy =>
+//     {
+//         if (frontEndUrl == null) return;
+//         policy
+//             .WithOrigins(frontEndUrl)
+//             .AllowAnyHeader()
+//             .AllowAnyMethod();
+//     });
+// });
+
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("WorkOrderDeskWeb", policy =>
-    {
-        if (frontEndUrl == null) return;
-        policy
-            .WithOrigins(frontEndUrl)
-            .AllowAnyHeader()
-            .AllowAnyMethod();
-    });
+options.AddPolicy("WorkOrderDeskWeb", policy =>
+{
+    policy
+        .WithOrigins(
+            "http://localhost:5173",
+            "https://work-order-desk-web.vercel.app",
+            "https://work-order-desk-41bsq8yv8-christutor089-4698s-projects.vercel.app"
+        )
+        .AllowAnyHeader()
+        .AllowAnyMethod();
 });
+
 
 builder.Services.ConfigureHttpJsonOptions(options =>
 {
@@ -78,7 +93,7 @@ app.UseHttpsRedirection();
 app.UseCors("WorkOrderDeskWeb");
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-app.MapControllers();
+// app.MapControllers();
 
 app.MapGet("/health", () => Results.Ok(new { status = "ok" }));
 
