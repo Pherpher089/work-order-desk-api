@@ -50,16 +50,17 @@ string frontEndUrl = builder.Configuration["FrontendUrl"] ?? throw new InvalidOp
 
 builder.Services.AddCors(options =>
 {
-options.AddPolicy("WorkOrderDeskWeb", policy =>
-{
-    policy
-        .WithOrigins(
-            "http://localhost:5173",
-            "https://work-order-desk-web.vercel.app",
-            "https://work-order-desk-41bsq8yv8-christutor089-4698s-projects.vercel.app"
-        )
-        .AllowAnyHeader()
-        .AllowAnyMethod();
+    options.AddPolicy("WorkOrderDeskWeb", policy =>
+    {
+        policy
+            .WithOrigins(
+                "http://localhost:5173",
+                "https://work-order-desk-web.vercel.app",
+                "https://work-order-desk-41bsq8yv8-christutor089-4698s-projects.vercel.app"
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
 });
 
 
