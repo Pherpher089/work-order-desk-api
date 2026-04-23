@@ -34,34 +34,24 @@ builder.Services.AddDbContext<WorkOrderDeskContext>(options =>
     }
 });
 
-string frontEndUrl = builder.Configuration["FrontendUrl"] ?? throw new InvalidOperationException("FrontendUrl configuration is missing.");
+var allowedOrigins = builder.Configuration["AllowedOrigins"]
+    ?? throw new InvalidOperationException("AllowedOrigins configuration is missing.");
 
-// builder.Services.AddCors(options =>
-// {
-//     options.AddPolicy("WorkOrderDeskWeb", policy =>
-//     {
-//         if (frontEndUrl == null) return;
-//         policy
-//             .WithOrigins(frontEndUrl)
-//             .AllowAnyHeader()
-//             .AllowAnyMethod();
-//     });
-// });
+string[] origins = allowedOrigins
+    .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("WorkOrderDeskWeb", policy =>
     {
         policy
-            .WithOrigins(
-                "http://localhost:5173",
-                "https://work-order-desk-web.vercel.app",
-                "https://work-order-desk-41bsq8yv8-christutor089-4698s-projects.vercel.app"
-            )
+            .WithOrigins(origins)
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
 });
+
+
 
 
 builder.Services.ConfigureHttpJsonOptions(options =>
