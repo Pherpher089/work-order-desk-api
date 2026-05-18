@@ -23,15 +23,7 @@ builder.Services.AddSwaggerGen();
 string connectionString = builder.Configuration.GetConnectionString("WorkOrderDesk") ?? throw new InvalidOperationException("Connection string 'WorkOrderDesk' not found.");
 builder.Services.AddDbContext<WorkOrderDeskContext>(options =>
 {
-
-    if (connectionString!.Contains("Host="))
-    {
-        options.UseNpgsql(connectionString);
-    }
-    else
-    {
-        options.UseSqlite(connectionString);
-    }
+    options.UseNpgsql(connectionString);
 });
 
 var allowedOrigins = builder.Configuration["AllowedOrigins"]

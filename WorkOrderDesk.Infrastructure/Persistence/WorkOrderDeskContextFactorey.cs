@@ -9,8 +9,9 @@ public sealed class WorkOrderDeskContextFactory : IDesignTimeDbContextFactory<Wo
     {
         var optionsBuilder = new DbContextOptionsBuilder<WorkOrderDeskContext>();
 
-        optionsBuilder.UseSqlite("Data Source=workorderdesk.db");
-
+        optionsBuilder.UseNpgsql(
+            "Host=localhost;Port=5432;Database=workorderdesk;Username=wod_user;Password=password"
+        );
         return new WorkOrderDeskContext(optionsBuilder.Options);
     }
 }
