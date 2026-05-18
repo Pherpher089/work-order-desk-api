@@ -4,6 +4,12 @@
 
 ### Changed 5/18/26
 
+- Enableing Swagger in non-dev environments
+
+## [0.1.0]
+
+### Changed 5/18/26
+
 - Switched local DB setup to use PostgreSQL
 - Switched all IDs to use Guid uuids instead of Guid Text fields
 - Remigrated DB
