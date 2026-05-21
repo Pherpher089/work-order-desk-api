@@ -11,6 +11,8 @@ using WorkOrderDesk.Application.WorkOrders.UpdateWorkOrder;
 using WorkOrderdeks.Api.WorkOrders;
 using WorkOrderDesk.Application.WorkOrders.DeleteWorkOrder;
 using System.Text.Json.Serialization;
+using WorkOrderdeks.Api.Users;
+using WorkOrderDesk.Application.Users.CreateUser;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,6 +59,8 @@ builder.Services.AddScoped<ListWorkOrdersHandler>();
 builder.Services.AddScoped<GetWorkOrderByIdHandler>();
 builder.Services.AddScoped<UpdateWorkOrderHandler>();
 builder.Services.AddScoped<DeleteWorkOrderHandler>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<CreateUserHandler>();
 
 var app = builder.Build();
 
@@ -216,5 +220,27 @@ app.MapDelete("/work-orders/{id:guid}", async (
     return Results.NoContent();
 });
 
+app.MapPost("/users", async (
+    CreateUserRequest request,
+    CreateUserHandler handler,
+    CancellationToken cancellationToken
+) =>
+{
+    CreateUserCommand command = new CreateUserCommand
+    {
+        FirstName = request.FirstName,
+        LastName = request.LastName
+    };
+
+    CreateUserResult result = await handler.HandleAsync(command, cancellationToken);
+
+    return Results.Created($"/users/{result.Id}", new CreateUserResult
+    {
+        Id = result.Id,
+        FirstName = result.FirstName,
+        LastName = result.LastName
+    });
+
+});
 
 app.Run();

@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.1]
+
+### Added 5/21/26
+
+- Can now post users to the user table using /user endpoint and providing a first and last name
+
 ## [0.1.0]
 
 ### Changed 5/18/26

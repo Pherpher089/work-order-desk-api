@@ -1,5 +1,6 @@
 using WorkOrderDesk.Application.WorkOrders.GetWorkOrderById;
 using WorkOrderDesk.Application.WorkOrders.ListWorkOrders;
+using WorkOrderDesk.Domain.Users;
 using WorkOrderDesk.Domain.WorkOrders;
 
 namespace WorkOrderDesk.Application.Abstractions;
