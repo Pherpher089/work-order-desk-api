@@ -12,7 +12,6 @@ public sealed class ListWorkOrdersHandler
     }
 
     public async Task<IReadOnlyList<WorkOrderListItem>> HandleAsync(
-        ListWorkOrdersQuery query,
         CancellationToken cancellationToken = default
     )
     {

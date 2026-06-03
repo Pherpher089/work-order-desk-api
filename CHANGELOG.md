@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.2]
+
+### Added 6/3/26
+
+- Can now get a list of all the users
+
+# Changelog
+
 ## [0.1.1]
 
 ### Added 5/21/26

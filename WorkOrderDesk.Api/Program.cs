@@ -13,6 +13,7 @@ using WorkOrderDesk.Application.WorkOrders.DeleteWorkOrder;
 using System.Text.Json.Serialization;
 using WorkOrderdeks.Api.Users;
 using WorkOrderDesk.Application.Users.CreateUser;
+using WorkOrderDesk.Application.Users.ListUsers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -61,6 +62,7 @@ builder.Services.AddScoped<UpdateWorkOrderHandler>();
 builder.Services.AddScoped<DeleteWorkOrderHandler>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<CreateUserHandler>();
+builder.Services.AddScoped<ListUsersHandler>();
 
 var app = builder.Build();
 
@@ -115,7 +117,7 @@ app.MapGet("/work-orders", async (
     CancellationToken cancellationToken
 ) =>
 {
-    IReadOnlyList<WorkOrderListItem> items = await handler.HandleAsync(new ListWorkOrdersQuery(), cancellationToken);
+    IReadOnlyList<WorkOrderListItem> items = await handler.HandleAsync(cancellationToken);
 
     IEnumerable<WorkOrderListItemResponse> response = items.Select(x => new WorkOrderListItemResponse
     {
@@ -241,6 +243,23 @@ app.MapPost("/users", async (
         LastName = result.LastName
     });
 
+});
+
+app.MapGet("/users", async (
+    ListUsersHandler handler,
+    CancellationToken cancellationToken
+) =>
+{
+    IReadOnlyList<UserListItem> items = await handler.HandleAsync(cancellationToken);
+
+    IEnumerable<UserListItemResponse> response = items.Select(x => new UserListItemResponse
+    {
+        Id = x.Id,
+        FirstName = x.FirstName,
+        LastName = x.LastName
+    });
+
+    return Results.Ok(response);
 });
 
 app.Run();
