@@ -1,6 +1,4 @@
-using WorkOrderDesk.Domain.Users;
-
-namespace WorkOrderdeks.Api.Users;
+namespace WorkOrderDesk.Api.Users;
 
 public sealed class CreateUserRequest
 {

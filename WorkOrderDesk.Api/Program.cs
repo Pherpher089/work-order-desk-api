@@ -11,9 +11,10 @@ using WorkOrderDesk.Application.WorkOrders.UpdateWorkOrder;
 using WorkOrderdeks.Api.WorkOrders;
 using WorkOrderDesk.Application.WorkOrders.DeleteWorkOrder;
 using System.Text.Json.Serialization;
-using WorkOrderdeks.Api.Users;
+using WorkOrderDesk.Api.Users;
 using WorkOrderDesk.Application.Users.CreateUser;
 using WorkOrderDesk.Application.Users.ListUsers;
+using WorkOrderDesk.Application.Users.GetUserById;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -260,6 +261,30 @@ app.MapGet("/users", async (
     });
 
     return Results.Ok(response);
+});
+
+app.MapGet("/users/{id:guid}", async (
+    Guid id,
+    GetUserByIdHandler handler,
+    CancellationToken cancellationToken
+) =>
+{
+    var result = await handler.HandleAsync(new GetUserByIdQuery
+    {
+        Id = id
+    }, cancellationToken);
+
+    if (result is null)
+    {
+        return Results.NotFound();
+    }
+
+    return Results.Ok(new UserListItemResponse
+    {
+        Id = result.Id,
+        FirstName = result.FirstName,
+        LastName = result.LastName
+    });
 });
 
 app.Run();

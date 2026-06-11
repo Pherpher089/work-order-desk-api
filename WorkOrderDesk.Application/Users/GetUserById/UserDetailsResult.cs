@@ -1,8 +1,8 @@
 using WorkOrderDesk.Domain.Users;
 
-namespace WorkOrderDesk.Api.Users;
+namespace WorkOrderDesk.Application.Users.GetUserById;
 
-public sealed class UserListItemResponse
+public sealed class UserDetailsResult
 {
     public UserId Id { get; init; }
     public string FirstName { get; init; } = string.Empty;

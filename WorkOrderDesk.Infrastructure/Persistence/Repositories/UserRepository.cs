@@ -1,6 +1,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using WorkOrderDesk.Application.Abstractions;
+using WorkOrderDesk.Application.Users.GetUserById;
 using WorkOrderDesk.Application.Users.ListUsers;
 using WorkOrderDesk.Domain.Users;
 
@@ -32,6 +33,22 @@ public sealed class UserRepository : IUserRepository
                 LastName = x.LastName
             })
             .ToListAsync(cancellationToken);
+    }
+
+    public async Task<UserDetailsResult?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        var userId = new UserId(id);
+
+        return await _context.Users
+            .AsNoTracking()
+            .Where(x => x.Id == userId)
+            .Select(x => new UserDetailsResult
+            {
+                Id = x.Id,
+                FirstName = x.FirstName,
+                LastName = x.LastName
+            })
+            .SingleOrDefaultAsync(cancellationToken);
     }
 
 }

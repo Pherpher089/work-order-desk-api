@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.3]
+
+### Added 6/311/26
+
+- Can now get a user by Id
+
 ## [0.1.2]
 
 ### Added 6/3/26
